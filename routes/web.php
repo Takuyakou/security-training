@@ -13,6 +13,45 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//************
+// ユーザー
+//************
+Route::namespace('User')->name('user.')->group(function () {
+
+    // ログイン認証関連
+    Auth::routes([
+        'register' => false,
+        'reset'    => false,
+        'verify'   => false
+    ]);
+
+    // ログイン認証後
+    Route::middleware('auth:user')->group(function () {
+
+        // TOPページ
+        Route::get('/', 'HomeController@index')->name('home');
+
+    });
+});
+
+//************
+// 管理者
+//************
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+
+    // ログイン認証関連
+    Auth::routes([
+        'register' => false,
+        'reset'    => false,
+        'verify'   => false
+    ]);
+
+    // ログイン認証後
+    Route::middleware('auth:admin')->group(function () {
+
+        // TOPページ
+        Route::get('/', 'HomeController@index')->name('home');
+
+    });
+
 });
