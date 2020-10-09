@@ -27,10 +27,7 @@ Route::namespace('User')->name('user.')->group(function () {
 
     // ログイン認証後
     Route::middleware('auth:user')->group(function () {
-
-        // TOPページ
         Route::get('/', 'HomeController@index')->name('home');
-
     });
 });
 
@@ -48,10 +45,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
     // ログイン認証後
     Route::middleware('auth:admin')->group(function () {
-
-        // TOPページ
         Route::get('/', 'HomeController@index')->name('home');
-
+        Route::get('/question', 'QuestionController@index')->name('question');
+        Route::get('/question/edit', 'QuestionController@edit')->name('question.edit');
     });
 
 });
