@@ -13,8 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    管理者用<br>
                     You are logged in!
+
+                <div class="card-body">
+                    <li><a href="{{ route('admin.question.list.show') }}">問題一覧</a></li>
+                    <li><a href="{{ route('admin.question.create.show') }}">問題追加</a></li>
                 </div>
             </div>
         </div>

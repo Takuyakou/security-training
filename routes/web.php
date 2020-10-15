@@ -46,8 +46,16 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     // ログイン認証後
     Route::middleware('auth:admin')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/question', 'QuestionController@index')->name('question');
-        Route::get('/question/edit', 'QuestionController@edit')->name('question.edit');
-    });
+        // 問題一覧ページに遷移
+        Route::get('/question', 'QuestionController@index')->name('question.list.show');
+        // 問題追加ページに遷移
+        Route::get('/question/edit', 'QuestionController@showCreatePage')->name('question.create.show');
+        // 問題を作成
+        Route::post('/question/edit', 'QuestionController@create')->name('question.create');
 
+        // 問題編集ページに遷移
+        Route::get('/question/edit/{question_id}', 'QuestionController@showUpdatePage')->name('question.update.show');
+        // 問題を更新
+        Route::post('/question/edit/{question_id}', 'QuestionController@update')->name('question.update');
+    });
 });
