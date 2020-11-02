@@ -91,6 +91,7 @@
                                         </tr>
                                     </thead>
 
+
                                     @foreach ($answers as $i => $answer)
                                     <input type="hidden" value="{{ old('answer_id.'.$i,$answer->id) }}" name="answer_id[{{$i}}]">
 
@@ -183,6 +184,9 @@
                             </div>
                         @endif
                     </form>
+
+
+
 
 
 

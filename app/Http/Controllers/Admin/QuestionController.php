@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon; // 追加
 
 
 class QuestionController extends Controller
@@ -16,8 +16,28 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
-        $questions = \App\Models\Question::get();
+        $questions = \App\Models\Question::whereNull('deleted_at')->get();
         return view('admin.question.index', ['questions' => $questions]);
+    }
+
+    /**
+     * 問題数を変更
+     */
+    public function questionNumberChange(Request $request)
+    {
+
+        // envファイルを書き換える
+        $path = base_path('.env');
+
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'NUMBER_OF_QUESTIONS=' . config('app.NUMBER_OF_QUESTIONS'),
+                'NUMBER_OF_QUESTIONS=' . $request->questionNum,
+                file_get_contents($path)
+            ));
+        }
+        session()->flash('status', '出題問題数の変更が完了しました');
+        return redirect('/admin');
     }
 
     /**
@@ -89,6 +109,7 @@ class QuestionController extends Controller
                 }
                 $answer = new \App\Models\Answer;
 
+
                 // テーブル間の関連する値(question_id)
                 $answer->question_id = $question->id;
                 $answer->answer_text = $answerText;
@@ -96,6 +117,26 @@ class QuestionController extends Controller
                 $answer->save();
             }
         });
+
+
+        // envファイルを書き換える
+        $path = base_path('.env');
+        // 必須問題数を取得
+        $flgOnQuestionscnt = \App\Models\Question::where('required_flg', 1)->count();
+        // 現在の出題数を取得
+        $newQuestions = config('app.NUMBER_OF_QUESTIONS');
+
+        // 必須問題数と出題数を比較して必須の方が多ければenvを書き換える
+        if ($flgOnQuestionscnt > $newQuestions) {
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    'NUMBER_OF_QUESTIONS=' . config('app.NUMBER_OF_QUESTIONS'),
+                    'NUMBER_OF_QUESTIONS=' . $flgOnQuestionscnt,
+                    file_get_contents($path)
+                ));
+            }
+        }
+
 
         $questions = \App\Models\Question::get();
         session()->flash('status', '問題の追加が完了しました');
@@ -200,6 +241,7 @@ class QuestionController extends Controller
             } else {
                 $question->required_flg = false;
             }
+
             $question->save();
 
             // 解答
@@ -216,10 +258,51 @@ class QuestionController extends Controller
         });
 
 
+        // envファイルを書き換える
+        $path = base_path('.env');
+        // 必須問題数を取得
+        $flgOnQuestionscnt = \App\Models\Question::where('required_flg', 1)->count();
+        // 現在の出題数を取得
+        $newQuestions = config('app.NUMBER_OF_QUESTIONS');
+
+        // 必須問題数と出題数を比較して必須の方が多ければenvを書き換える
+        if ($flgOnQuestionscnt > $newQuestions) {
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    'NUMBER_OF_QUESTIONS=' . config('app.NUMBER_OF_QUESTIONS'),
+                    'NUMBER_OF_QUESTIONS=' . $flgOnQuestionscnt,
+                    file_get_contents($path)
+                ));
+            }
+        }
+
+
         $question_id = $request->question_id;
         $question = \App\Models\Question::find($question_id);
         $answers = \App\Models\Answer::where('question_id', $question_id)->get();
         session()->flash('status', '問題の編集が完了しました');
         return view('admin.question.edit', ['question' => $question, 'answers' => $answers, 'create_flag' => false]);
+    }
+
+    /**
+     * 問題削除処理
+     */
+    public function delete(Request $request)
+    {
+
+
+        // delete_atをonにする
+        DB::transaction(function () use ($request) {
+
+            $question_id = $request->question_id;
+            $question = \App\Models\Question::where('id', $question_id)->first();
+
+            $question->deleted_at = Carbon::now();
+            $question->save();
+        });
+
+        $questions = \App\Models\Question::whereNull('deleted_at')->get();
+        session()->flash('status', '問題を削除しました');
+        return view('admin.question.index', ['questions' => $questions]);
     }
 }

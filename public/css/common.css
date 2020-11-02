@@ -1,0 +1,26 @@
+.correct_box {
+    padding: 0.5em 1em;
+    margin: 20px 0;
+    /* font-weight: bold;
+    color: #6091d3; */
+    /*文字色*/
+    /* background: #FFF;
+    border: solid 3px #6091d3; */
+    /*線*/
+    /* border-radius: 10px; */
+    /*角の丸み*/
+    /* border-spacing: 10px; */
+}
+
+label,
+input[type='checkbox'] {
+    cursor: pointer;
+}
+
+#table_detail .hidden_row {
+    display: none;
+}
+
+.result-box {
+    cursor: pointer;
+}
