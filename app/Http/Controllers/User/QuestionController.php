@@ -55,6 +55,7 @@ class QuestionController extends Controller
             $user_answer_headers = new \App\Models\UserAnswerHeader;
             $user_answer_headers->user_id = $user_id;
             $user_answer_headers->examination_at = Carbon::now();
+            $user_answer_headers->pass_flg = false;
             $user_answer_headers->save();
 
 
@@ -150,21 +151,23 @@ class QuestionController extends Controller
             $uad->answers = $answers;
         }
 
-
-        // $user_answer_headers = new \App\Models\UserAnswerHeader;
-
         // 問題数
         $question_cnt = count($userAnswerDetails);
         // 問題の正解数を取得
         $user_collect_num = \App\Models\UserAnswerDetail::where('judgment', true)->where('header_id', $id)->count();
 
         $judg = ($user_collect_num / $question_cnt) * 100;
-        // echo round($judg);
+
+        // ヘッダー取得
+        $UserAnswerheader = \App\Models\UserAnswerHeader::find($id);
 
         // 問題の合格、不合格を判定(9割以上で合格)
         if (round($judg) < 90) {
+
             $pass_flag = false;
         } else {
+            $UserAnswerheader->pass_flg = true;
+            $UserAnswerheader->save();
             $pass_flag = true;
         }
 

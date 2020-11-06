@@ -58,8 +58,6 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         // 問題一覧ページに遷移
         Route::get('/question', 'QuestionController@index')->name('question.list.show');
-
-
         // 問題追加ページに遷移
         Route::get('/question/edit', 'QuestionController@showCreatePage')->name('question.create.show');
         // 問題を作成
@@ -71,8 +69,27 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         // 問題を更新
         Route::post('/question/edit/{question_id}', 'QuestionController@update')->name('question.update');
 
+
         /**
-         * ユーザー管理画面・機能ここから
+         * ユーザー管理機能
          */
+        // ユーザー一覧ページに遷移
+        Route::get('/user', 'UserController@index')->name('user.list.show');
+        // ユーザー作成ページに遷移
+        Route::get('/user/edit', 'UserController@showCreatePage')->name('user.create.show');
+        // ユーザーを作成
+        Route::post('/user/edit', 'UserController@create')->name('user.create');
+        // ユーザー削除機能
+        Route::post('/user/edit/delete', 'UserController@destroy')->name('user.delete');
+        // ユーザー編集ページに遷移
+        Route::get('/user/edit/{user_id}', 'UserController@showUpdatePage')->name('user.update.show');
+        // ユーザーを更新
+        Route::post('/user/edit/{user_id}', 'UserController@update')->name('user.update');
+
+        /**
+         * 受験結果管理機能
+         */
+        // 受験結果一覧ページに遷移
+        Route::get('/result', 'ResultController@index')->name('result.list.show');
     });
 });

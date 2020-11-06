@@ -522,6 +522,8 @@ class ComposerStaticInit7c5a3e7cb3f39e45fdaa5823764cadb5
         'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/LoginController.php',
         'App\\Http\\Controllers\\Admin\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HomeController.php',
         'App\\Http\\Controllers\\Admin\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/QuestionController.php',
+        'App\\Http\\Controllers\\Admin\\ResultController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ResultController.php',
+        'App\\Http\\Controllers\\Admin\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UserController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\User\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/Auth/LoginController.php',
         'App\\Http\\Controllers\\User\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/HomeController.php',

@@ -18,6 +18,9 @@
 
                     <li><a href="{{ route('admin.question.list.show') }}">問題一覧</a></li>
                     <li><a href="{{ route('admin.question.create.show') }}">問題追加</a></li>
+                    <li><a href="{{ route('admin.user.list.show') }}">ユーザー一覧</a></li>
+                    <li><a href="{{ route('admin.user.create.show') }}">ユーザー追加</a></li>
+                    <li><a href="{{ route('admin.result.list.show') }}">受験結果一覧</a></li>
 
                     <form method="POST" action="{{ route('admin.question.number.change') }}">
                     @csrf

@@ -48,7 +48,6 @@
                                                     <form method="POST" action="{{ route('admin.question.delete') }}">
                                                     <div class="form-group mx-sm-1 mb-1">
 
-
                                                         <input type="hidden" value="{{optional($question)->id}}" name="question_id">
                                                             @csrf
                                                             <button type="submit" class="btn btn-outline-danger">削除</button>

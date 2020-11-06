@@ -289,8 +289,6 @@ class QuestionController extends Controller
      */
     public function delete(Request $request)
     {
-
-
         // delete_atをonにする
         DB::transaction(function () use ($request) {
 
